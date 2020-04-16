@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    name: tingjian
+# url: jdbc:mysql://127.0.0.1:3306/tingjian?useUnicode=true&characterEncoding=utf-8&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/tingjian?useUnicode=true&characterEncoding=utf-8&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8&useSSL=false&allowPublicKeyRetrieval=true
+    username: corbin
+    password: 123456
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
