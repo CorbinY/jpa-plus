@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.corbin</groupId>
-    <artifactId>jpa-plus</artifactId>
+    <artifactId>jpa-common</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>jpa-plus</name>
-    <description>jpa plus</description>
+    <description>jpa common</description>
 
     <properties>
         <java.version>1.8</java.version>
