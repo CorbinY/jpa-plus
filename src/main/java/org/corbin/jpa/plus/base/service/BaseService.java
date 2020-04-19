@@ -1,34 +1,27 @@
-package org.corbin.jpa.plus.service.impl;
+package org.corbin.jpa.plus.base.service;
 
-import org.corbin.jpa.plus.repositort.BaseRepository;
-import org.corbin.jpa.plus.service.BaseService;
+import org.corbin.jpa.plus.base.repositort.BaseRepository;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.util.Assert;
 
-import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * 基础baseService实现类
- *
  * @author xiesu
  */
-@SuppressWarnings("all")
-public class BaseServiceImpl<R extends BaseRepository<T, ID>, T, ID extends Serializable> implements BaseService<T, ID> {
+public interface BaseService<T, ID extends Serializable> {
 
-    @Inject
-    protected R baseRepository;
-
-    @Override
-    public BaseRepository<T, ID> getBaseRepository() {
-        return this.baseRepository;
-    }
+    /**
+     * 获取注入的到service中的repository
+     *
+     * @return
+     */
+    BaseRepository<T, ID> getBaseRepository();
 
     /**
      * select a union domain by PK
@@ -37,11 +30,7 @@ public class BaseServiceImpl<R extends BaseRepository<T, ID>, T, ID extends Seri
      * @param id must not be {@literal null}
      * @return Retrieves an entity by its id.
      */
-    @Override
-    public T findById(ID id) {
-        Optional<T> optional = baseRepository.findById(id);
-        return optional.orElse(null);
-    }
+    T findById(ID id);
 
     /**
      * select a union domain by PK
@@ -50,10 +39,7 @@ public class BaseServiceImpl<R extends BaseRepository<T, ID>, T, ID extends Seri
      * @param id id is the pk
      * @return
      */
-    @Override
-    public T findByPK(ID id) {
-        return findById(id);
-    }
+    T findByPK(ID id);
 
     /**
      * find a union a intact domain by a un-intact domain,
@@ -62,12 +48,7 @@ public class BaseServiceImpl<R extends BaseRepository<T, ID>, T, ID extends Seri
      * @param domain
      * @return
      */
-    @Override
-    public T findOne(T domain) {
-        Assert.notNull(domain, "domain will be change type to Example ,it not be null");
-        Optional<T> optional = baseRepository.findOne(Example.of(domain));
-        return optional.orElse(null);
-    }
+    T findOne(T domain);
 
     /**
      * this founction always return instance like hibernate used get   ,if not fount will be throws an exception ,
@@ -82,11 +63,7 @@ public class BaseServiceImpl<R extends BaseRepository<T, ID>, T, ID extends Seri
      * @return a reference to the entity with the given identifier.
      * @see EntityManager#getReference(Class, Object) for details on when an exception is thrown.
      */
-    @Override
-    public T getOne(ID id) {
-        Assert.notNull(id, "id must not be null");
-        return baseRepository.getOne(id);
-    }
+    T getOne(ID id);
 
     /**
      * Returns a single entity matching the given {@link Example} or {@literal null} if none was found.
@@ -95,20 +72,14 @@ public class BaseServiceImpl<R extends BaseRepository<T, ID>, T, ID extends Seri
      * @return a single entity matching the given {@link Example} or {@link Optional#empty()} if none was found.
      * @throws IncorrectResultSizeDataAccessException if the Example yields more than one result.
      */
-    @Override
-    public Optional<T> findOne(Example<T> example) {
-        return baseRepository.findOne(example);
-    }
+    Optional<T> findOne(Example<T> example);
 
     /**
      * find all domain elements
      *
      * @return
      */
-    @Override
-    public List<T> findAll() {
-        return baseRepository.findAll();
-    }
+    List<T> findAll();
 
     /**
      * find all domain elements with sort
@@ -116,10 +87,7 @@ public class BaseServiceImpl<R extends BaseRepository<T, ID>, T, ID extends Seri
      *
      * @return
      */
-    @Override
-    public List<T> findAll(Sort sort) {
-        return baseRepository.findAll(sort);
-    }
+    List<T> findAll(Sort sort);
 
     /**
      * Returns a {@link Page} of entities meeting the paging restriction provided in the {@code Pageable} object.
@@ -127,30 +95,21 @@ public class BaseServiceImpl<R extends BaseRepository<T, ID>, T, ID extends Seri
      * @param pageable
      * @return a page of entities
      */
-    @Override
-    public Page<T> findAll(Pageable pageable) {
-        return baseRepository.findAll(pageable);
-    }
+    Page<T> findAll(Pageable pageable);
 
     /**
      * (non-Javadoc)
      *
      * @see org.springframework.data.repository.query.QueryByExampleExecutor#findAll(org.springframework.data.domain.Example, org.springframework.data.domain.Sort)
      */
-    @Override
-    public <S extends T> List<S> findAll(Example<S> example, Sort sort) {
-        return baseRepository.findAll(example, sort);
-    }
+    <S extends T> List<S> findAll(Example<S> example, Sort sort);
 
     /**
      * (non-Javadoc)
      *
      * @see org.springframework.data.repository.query.QueryByExampleExecutor#findAll(org.springframework.data.domain.Example)
      */
-    @Override
-    public <S extends T> List<S> findAll(Example<S> example) {
-        return baseRepository.findAll(example);
-    }
+    <S extends T> List<S> findAll(Example<S> example);
 
 
     /**
@@ -161,10 +120,7 @@ public class BaseServiceImpl<R extends BaseRepository<T, ID>, T, ID extends Seri
      * @param pageable can be {@literal null}.
      * @return a {@link Page} of entities matching the given {@link Example}.
      */
-    @Override
-    public Page<T> findAll(Example<T> example, Pageable pageable) {
-        return baseRepository.findAll(example, pageable);
-    }
+    Page<T> findAll(Example<T> example, Pageable pageable);
 
     /**
      * returns a list domains which found by given ids
@@ -172,10 +128,7 @@ public class BaseServiceImpl<R extends BaseRepository<T, ID>, T, ID extends Seri
      * @param ids
      * @return
      */
-    @Override
-    public List<T> findAllById(Iterable<ID> ids) {
-        return baseRepository.findAllById(ids);
-    }
+    List<T> findAllById(Iterable<ID> ids);
 
     /**
      * Returns the number of instances matching the given {@link Example}.
@@ -183,11 +136,7 @@ public class BaseServiceImpl<R extends BaseRepository<T, ID>, T, ID extends Seri
      * @param example the {@link Example} to count instances for. Must not be {@literal null}.
      * @return the number of instances matching the {@link Example}.
      */
-    @Override
-    public long count(Example<T> example) {
-        Assert.notNull(example, "example must not be null");
-        return baseRepository.count(example);
-    }
+    long count(Example<T> example);
 
     /**
      * Deletes the entity with the given id.
@@ -195,10 +144,7 @@ public class BaseServiceImpl<R extends BaseRepository<T, ID>, T, ID extends Seri
      * @param id must not be {@literal null}.
      * @throws IllegalArgumentException in case the given {@code id} is {@literal null}
      */
-    @Override
-    public void deleteById(ID id) {
-        baseRepository.deleteById(id);
-    }
+    void deleteById(ID id);
 
     /**
      * Deletes a given entity.
@@ -206,10 +152,7 @@ public class BaseServiceImpl<R extends BaseRepository<T, ID>, T, ID extends Seri
      * @param entity
      * @throws IllegalArgumentException in case the given entity is {@literal null}.
      */
-    @Override
-    public void delete(T entity) {
-        baseRepository.delete(entity);
-    }
+    void delete(T entity);
 
     /**
      * Deletes the given entities.
@@ -217,18 +160,12 @@ public class BaseServiceImpl<R extends BaseRepository<T, ID>, T, ID extends Seri
      * @param entities
      * @throws IllegalArgumentException in case the given {@link Iterable} is {@literal null}.
      */
-    @Override
-    public void deleteAll(Iterable<? extends T> entities) {
-        baseRepository.deleteAll(entities);
-    }
+    void deleteAll(Iterable<? extends T> entities);
 
     /**
      * Deletes all entities managed by the repository.
      */
-    @Override
-    public void deleteAll() {
-        baseRepository.deleteAll();
-    }
+    void deleteAll();
 
 
     /**
@@ -237,19 +174,12 @@ public class BaseServiceImpl<R extends BaseRepository<T, ID>, T, ID extends Seri
      *
      * @param entities
      */
-    @Override
-    public void deleteInBatch(Iterable<T> entities) {
-        baseRepository.deleteInBatch(entities);
-
-    }
+    void deleteInBatch(Iterable<T> entities);
 
     /**
      * Deletes all entities in a batch call.
      */
-    @Override
-    public void deleteAllInBatch() {
-        baseRepository.deleteAllInBatch();
-    }
+    void deleteAllInBatch();
 
     /**
      * save a instance
@@ -257,20 +187,14 @@ public class BaseServiceImpl<R extends BaseRepository<T, ID>, T, ID extends Seri
      * @param domain
      * @return
      */
-    @Override
-    public T save(T domain) {
-        return baseRepository.saveAndFlush(domain);
-    }
+    T save(T domain);
 
     /**
      * (non-Javadoc)
      *
      * @see org.springframework.data.repository.CrudRepository
      */
-    @Override
-    public <S extends T> List<S> saveAll(Iterable<S> entities) {
-        return baseRepository.saveAll(entities);
-    }
+    <S extends T> List<S> saveAll(Iterable<S> entities);
 
 
 }

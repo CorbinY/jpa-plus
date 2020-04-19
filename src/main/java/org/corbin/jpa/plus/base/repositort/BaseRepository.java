@@ -1,4 +1,4 @@
-package org.corbin.jpa.plus.repositort;
+package org.corbin.jpa.plus.base.repositort;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
